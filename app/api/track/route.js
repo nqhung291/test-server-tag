@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import axios from "axios";
 
-export async function POST() {
+export async function POST(request) {
   try {
+    const body = await request.json();
     const data = {
+      client_id: body.clientId,
       events: [
         {
           name: "purchase",
@@ -15,7 +17,7 @@ export async function POST() {
       data,
       {
         params: {
-          measurement_id: process.env.GA4_MEASUREMENT_ID,
+          measurement_id: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
           api_secret: process.env.GA4_API_SECRET,
         },
       }
