@@ -22,9 +22,22 @@ export async function POST(request) {
         },
       }
     );
+    const ga4Res = await axios.post(
+      "https://www.google-analytics.com/mp/collect",
+      data,
+      {
+        params: {
+          measurement_id: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
+          api_secret: process.env.GA4_API_SECRET,
+        },
+      }
+    );
     return NextResponse.json({
       success: true,
-      data: res.data,
+      data: {
+        tagManager: res.data,
+        ga4: ga4Res.data,
+      },
     });
   } catch (e) {
     console.error(e);

@@ -25,15 +25,18 @@ export default function Home() {
       console.log("click button");
       console.log(apiUrl);
       setLoading(true);
-      // gtag(
-      //   "get",
-      //   process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
-      //   "client_id",
-      //   (client_id) => {
-      //     console.log("ga4_client_id", client_id);
-      //   }
-      // );
       pushEvent(126964819.1685982765);
+
+      const clientIdPromise = new Promise((resolve) => {
+        gtag(
+          "get",
+          process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
+          "client_id",
+          resolve
+        );
+      });
+      const clientId = await clientIdPromise();
+      console.log(clientId);
     } catch (e) {
       console.error(e);
     }
