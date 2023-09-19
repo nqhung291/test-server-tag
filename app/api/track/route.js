@@ -16,30 +16,30 @@ export async function POST(request) {
     };
     console.log("request data", JSON.stringify(data));
     // Send purchase through Measurement Protocol GA4
-    // await axios.post(
-    //   `https://gtm-tcjzt7jq-ogi3z.uc.r.appspot.com/mp/collect?measurement_id=${process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID}&api_secret=${process.env.GA4_API_SECRET}`,
-    //   data
-    // );
+    await axios.post(
+      `https://gtm-tcjzt7jq-ogi3z.uc.r.appspot.com/mp/collect?measurement_id=${process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID}&api_secret=${process.env.GA4_API_SECRET}`,
+      data
+    );
     // Send purchase directly to GA4
     // await axios.post(
     //   `https://www.google-analytics.com/mp/collect?measurement_id=${process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID}&api_secret=${process.env.GA4_API_SECRET}`,
     //   data
     // );
     // Send purchase through old Measurement Protocol
-    await axios.post(
-      "https://gtm-tcjzt7jq-ogi3z.uc.r.appspot.com/g/collect",
-      null,
-      {
-        params: {
-          v: 2,
-          tid: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
-          cid: clientId,
-          en: "purchase",
-          t: "pageview",
-          dl: "https://test-server-tag.vercel.app/",
-        },
-      }
-    );
+    // await axios.post(
+    //   "https://gtm-tcjzt7jq-ogi3z.uc.r.appspot.com/g/collect",
+    //   null,
+    //   {
+    //     params: {
+    //       v: 2,
+    //       tid: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
+    //       cid: clientId,
+    //       en: "purchase",
+    //       t: "pageview",
+    //       dl: "https://test-server-tag.vercel.app/",
+    //     },
+    //   }
+    // );
     return NextResponse.json({
       success: true,
     });
