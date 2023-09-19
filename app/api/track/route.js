@@ -15,24 +15,12 @@ export async function POST(request) {
     };
     console.log("request data", JSON.stringify(data));
     const res = await axios.post(
-      "https://gtm-tcjzt7jq-ogi3z.uc.r.appspot.com/mp/collect",
-      data,
-      {
-        params: {
-          measurement_id: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
-          api_secret: process.env.GA4_API_SECRET,
-        },
-      }
+      `https://gtm-tcjzt7jq-ogi3z.uc.r.appspot.com/mp/collect?measurement_id=${process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID}&api_secret=${process.env.GA4_API_SECRET}`,
+      data
     );
     const ga4Res = await axios.post(
-      "https://www.google-analytics.com/mp/collect",
-      data,
-      {
-        params: {
-          measurement_id: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
-          api_secret: process.env.GA4_API_SECRET,
-        },
-      }
+      `https://www.google-analytics.com/mp/collect?measurement_id=${process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID}&api_secret=${process.env.GA4_API_SECRET}`,
+      data
     );
     return NextResponse.json({
       success: true,
