@@ -23,7 +23,7 @@ export async function POST(request) {
       `https://www.google-analytics.com/mp/collect?measurement_id=${process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID}&api_secret=${process.env.GA4_API_SECRET}`,
       data
     );
-    await axios.get(
+    await axios.post(
       "https://gtm-tcjzt7jq-ogi3z.uc.r.appspot.com/g/collect",
       null,
       {
