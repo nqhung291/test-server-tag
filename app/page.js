@@ -6,23 +6,28 @@ import { useState } from "react";
 const apiUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "";
 const mesurementId = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID;
 
-const getGtagClientId = () =>
-  new Promise((resolve) => gtag("get", mesurementId, "client_id", resolve));
-
 export default function Home() {
   const [loading, setLoading] = useState(false);
+
+  const getGtagClientId = () => {
+    if (typeof window !== "undefined") {
+      return new Promise((resolve) =>
+        gtag("get", mesurementId, "client_id", resolve)
+      );
+    }
+  };
 
   const onClick = async () => {
     try {
       setLoading(true);
       const clientId = "126964819.1685982765";
-      // const clientId = await getGtagClientId();
       console.log("click button", clientId);
       const res = await axios.post(`${apiUrl}/api/track`, {
         clientId,
       });
-
       console.log("response", res.data);
+      const checkClientId = await getGtagClientId();
+      console.log(checkClientId);
     } catch (e) {
       console.error(e);
     } finally {
