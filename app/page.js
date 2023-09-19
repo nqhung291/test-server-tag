@@ -3,25 +3,15 @@
 import axios from "axios";
 import { useState } from "react";
 
-const apiUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
+const apiUrl = process.env.NEXT_PUBLIC_VERCEL_URL || "";
 
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const pushEvent = async (clientId) => {
     try {
-      const res = await axios.post(
-        "/api/track",
-        {
-          clientId,
-        },
-        {
-          ...(apiUrl
-            ? {
-                baseURL: apiUrl,
-              }
-            : {}),
-        }
-      );
+      const res = await axios.post(`${apiUrl}/api/track`, {
+        clientId,
+      });
       console.log(res.data);
     } catch (e) {
       console.error(e);
@@ -35,15 +25,15 @@ export default function Home() {
       console.log("click button");
       console.log(apiUrl);
       setLoading(true);
-      gtag(
-        "get",
-        process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
-        "client_id",
-        (client_id) => {
-          console.log("ga4_client_id", client_id);
-          pushEvent(client_id);
-        }
-      );
+      // gtag(
+      //   "get",
+      //   process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
+      //   "client_id",
+      //   (client_id) => {
+      //     console.log("ga4_client_id", client_id);
+      //   }
+      // );
+      pushEvent(126964819.1685982765);
     } catch (e) {
       console.error(e);
     }
