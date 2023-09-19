@@ -14,6 +14,7 @@ const ga4MeasurementId = process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID;
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
+      <body className={inter.className}>{children}</body>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${ga4MeasurementId}`}
       />
@@ -25,7 +26,6 @@ export default function RootLayout({ children }) {
           gtag('config', '${ga4MeasurementId}');
         `}
       </Script>
-      <body className={inter.className}>{children}</body>
     </html>
   );
 }

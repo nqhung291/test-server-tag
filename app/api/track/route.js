@@ -9,9 +9,11 @@ export async function POST(request) {
       events: [
         {
           name: "purchase",
+          params: {},
         },
       ],
     };
+    console.log("request data", JSON.stringify(data));
     const res = await axios.post(
       "https://gtm-tcjzt7jq-ogi3z.uc.r.appspot.com/mp/collect",
       data,
