@@ -1,8 +1,10 @@
 "use client";
 
 import axios from "axios";
+import { useState } from "react";
 
 export default function Home() {
+  const [loading, setLoading] = useState(false);
   const pushEvent = async (clientId) => {
     try {
       const res = await axios.post("/api/track", {
@@ -11,16 +13,21 @@ export default function Home() {
       console.log(res.data);
     } catch (e) {
       console.error(e);
+    } finally {
+      setLoading(false);
     }
   };
 
   const onClick = async () => {
     try {
+      console.log("click button");
+      setLoading(true);
       gtag(
         "get",
         process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
         "client_id",
         (client_id) => {
+          console.log("ga4_client_id", client_id);
           pushEvent(client_id);
         }
       );
@@ -30,7 +37,7 @@ export default function Home() {
   };
 
   return (
-    <button className="p-1 border" onClick={onClick}>
+    <button disabled={loading} className="p-1 border" onClick={onClick}>
       Click here to push event
     </button>
   );
