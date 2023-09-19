@@ -26,8 +26,6 @@ export default function Home() {
         clientId,
       });
       console.log("response", res.data);
-      const checkClientId = await getGtagClientId();
-      console.log(checkClientId);
     } catch (e) {
       console.error(e);
     } finally {
