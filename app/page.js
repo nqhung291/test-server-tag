@@ -15,7 +15,7 @@ export default function Home() {
   const onClick = async () => {
     try {
       setLoading(true);
-      const clientId = await getGtagClientId();
+      const clientId = 126964819.1685982765;
       console.log("click button", clientId);
       const res = await axios.post(`${apiUrl}/api/track`, {
         clientId,
