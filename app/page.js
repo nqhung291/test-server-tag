@@ -3,13 +3,25 @@
 import axios from "axios";
 import { useState } from "react";
 
+const apiUrl = process.env.NEXT_PUBLIC_VERCEL_URL;
+
 export default function Home() {
   const [loading, setLoading] = useState(false);
   const pushEvent = async (clientId) => {
     try {
-      const res = await axios.post("/api/track", {
-        clientId,
-      });
+      const res = await axios.post(
+        "/api/track",
+        {
+          clientId,
+        },
+        {
+          ...(apiUrl
+            ? {
+                baseURL: apiUrl,
+              }
+            : {}),
+        }
+      );
       console.log(res.data);
     } catch (e) {
       console.error(e);
@@ -21,6 +33,7 @@ export default function Home() {
   const onClick = async () => {
     try {
       console.log("click button");
+      console.log(apiUrl);
       setLoading(true);
       gtag(
         "get",
