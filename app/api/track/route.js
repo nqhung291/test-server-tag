@@ -4,8 +4,9 @@ import axios from "axios";
 export async function POST(request) {
   try {
     const body = await request.json();
+    const clientId = body.clientId;
     const data = {
-      client_id: body.clientId,
+      client_id: clientId,
       events: [
         {
           name: "purchase",
@@ -14,20 +15,30 @@ export async function POST(request) {
       ],
     };
     console.log("request data", JSON.stringify(data));
-    const res = await axios.post(
+    await axios.post(
       `https://gtm-tcjzt7jq-ogi3z.uc.r.appspot.com/mp/collect?measurement_id=${process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID}&api_secret=${process.env.GA4_API_SECRET}`,
       data
     );
-    const ga4Res = await axios.post(
+    await axios.post(
       `https://www.google-analytics.com/mp/collect?measurement_id=${process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID}&api_secret=${process.env.GA4_API_SECRET}`,
       data
     );
+    await axios.get(
+      "https://gtm-tcjzt7jq-ogi3z.uc.r.appspot.com/g/collect",
+      null,
+      {
+        params: {
+          v: 2,
+          tid: process.env.NEXT_PUBLIC_GA4_MEASUREMENT_ID,
+          cid: clientId,
+          en: "purchase",
+          t: "pageview",
+          dl: "https://test-server-tag.vercel.app/",
+        },
+      }
+    );
     return NextResponse.json({
       success: true,
-      data: {
-        tagManager: res.data,
-        ga4: ga4Res.data,
-      },
     });
   } catch (e) {
     console.error(e);
